@@ -3,11 +3,9 @@ kind: ConfigMap
 metadata:
   name: {{ include "revolt.fullname" . }}-config
   namespace: {{ .Values.global.namespace }}
-  annotations:
-    "helm.sh/resource-policy": keep
 data:
   Revolt.toml: |
-    production = false
+    production = {{ .Values.revolt.config.production }}
 
     [database]
     mongodb = {{ .Values.global.subcharts.mongo.connection_url | default (printf "mongodb://%s-mongodb" (include "revolt.fullname" .)) | quote }}
@@ -19,7 +17,6 @@ data:
     username = {{ .Values.global.subcharts.rabbitmq.username | quote }}
     password = {{ .Values.global.subcharts.rabbitmq.password | quote }}
 
-
     [hosts]
     app = "https://{{ .Values.global.domain }}"
     api = "https://{{ .Values.global.domain }}/api"
@@ -28,24 +25,27 @@ data:
     january = "https://{{ .Values.global.domain }}/january"
 
     [pushd.vapid]
-    private_key = "{{ .Values.global.secret.vapid_key }}"
-    public_key = "{{ .Values.global.secret.vapid_public_key }}"
+    private_key = {{ .Values.global.secret.vapid_key | quote }}
+    public_key = {{ .Values.global.secret.vapid_public_key | quote }}
 
     [files]
-    encryption_key = "{{ .Values.global.secret.encryption_key }}"
-
-
+    encryption_key = {{ .Values.global.secret.encryption_key | quote }}
+    type = {{ .Values.revolt.config.files.type | quote }}
 
     [files.s3]
-    # S3 protocol endpoint
     endpoint = {{ .Values.global.subcharts.minio.connection_url | default (printf "redis://%s-minio:9000" (include "revolt.fullname" .)) | quote }}
-    # Whether to use path-style buckets
-    # Generally true, except for MinIO
-    path_style_buckets = false
-    # S3 region name
-    region = "minio"
-    # S3 protocol key ID
-    access_key_id = "minioautumn"
-    # S3 protocol access key
-    secret_access_key = "minioautumn"
-    default_bucket = "revolt-uploads"
+    region = {{ .Values.revolt.config.files.s3.region | quote }}
+    bucket = {{ .Values.revolt.config.files.s3.bucket | quote }}
+    access_key = {{ .Values.revolt.config.files.s3.access_key | quote }}
+    secret_key = {{ .Values.revolt.config.files.s3.secret_key | quote }}
+    path_style_buckets = {{ .Values.revolt.config.files.s3.path_style_buckets }}
+
+    [sentry]
+    dsn = {{ .Values.revolt.config.sentry.dsn | quote }}
+    traces_sample_rate = {{ .Values.revolt.config.sentry.traces_sample_rate }}
+
+    [settings]
+    allow_registration = {{ .Values.revolt.config.settings.allow_registration }}
+    invite_only = {{ .Values.revolt.config.settings.invite_only }}
+    minimum_username_length = {{ .Values.revolt.config.settings.minimum_username_length }}
+    maximum_username_length = {{ .Values.revolt.config.settings.maximum_username_length }}

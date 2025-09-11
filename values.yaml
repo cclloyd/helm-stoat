@@ -34,7 +34,7 @@ global:
     create: true
     automount: true
     annotations: { }
-    name: ""
+    name: ''
 
   subcharts:
     mongo:
@@ -52,6 +52,31 @@ global:
       port: 5672
       username: 'rabbituser'
       password: 'rabbitpass'
+
+
+revolt:
+  config:
+    production: false
+    files:
+      type: 's3'
+      s3:
+        region: 'us-east-1'
+        bucket: 'revolt'
+        access_key: 'minioautumn'
+        secret_key: 'minioautumn'
+        path_style_buckets: false
+
+    sentry:
+      dsn: ''
+      traces_sample_rate: 0.0
+
+    settings:
+      allow_registration: true
+      invite_only: false
+      minimum_username_length: 2
+      maximum_username_length: 32
+
+
 
 
 mongodb:
@@ -78,8 +103,8 @@ redis:
 rabbitmq:
   replicaCount: 1
   auth:
-    username: "rabbituser"
-    password: "rabbitpass"
+    username: 'rabbituser'
+    password: 'rabbitpass'
   persistence:
     enabled: false
 
