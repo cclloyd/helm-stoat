@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ include "revolt.fullname" . }}-config
   namespace: {{ .Values.global.namespace }}
+  annotations:
+    "helm.sh/resource-policy": keep
 data:
   Revolt.toml: |
     production = false
@@ -47,109 +49,3 @@ data:
     # S3 protocol access key
     secret_access_key = "minioautumn"
     default_bucket = "revolt-uploads"
-
-  copy.py: |
-    import json
-    from pathlib import Path
-
-    SRC_PATH = Path('/management.json')
-    DEST_PATH = Path('/etc/revolt/management.json')
-
-    def load_json(path):
-        print(f'Loading JSON from {path}')
-        with open(path, 'r') as f:
-            return json.load(f)
-
-    def save_json(path, data):
-        print(f'Saving merged JSON to {path}')
-        with open(path, 'w') as f:
-            json.dump(data, f, indent=2)
-
-    def merge_dicts(source, destination, path=''):
-        for key, value in source.items():
-            full_path = f'{path}.{key}' if path else key
-            if value in (None, '', [], {}, False):
-                if key in destination:
-                    print(f'{full_path}\t\t->    SKIP   ->\t\t')
-                continue
-
-            if isinstance(value, dict) and isinstance(destination.get(key), dict):
-                merge_dicts(value, destination[key], full_path)
-            else:
-                if key in destination and destination[key] != value:
-                    print(f'{full_path}\t\t-> OVERWRITE ->\t\t{destination[key]} -> {value}')
-                elif key not in destination:
-                    print(f'{full_path}\t\t->    NEW    ->\t\t{value}')
-                destination[key] = value
-        return destination
-
-    def main():
-        if not DEST_PATH.exists():
-            print(f'{DEST_PATH} does not exist. Copying {SRC_PATH} as-is.')
-            DEST_PATH.write_text(SRC_PATH.read_text())
-        else:
-            print(f'{DEST_PATH} exists. Merging contents from {SRC_PATH}.')
-            src_data = load_json(SRC_PATH)
-            dest_data = load_json(DEST_PATH)
-            merged = merge_dicts(src_data, dest_data)
-            save_json(DEST_PATH, merged)
-
-    if __name__ == '__main__':
-        main()
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Release.Name }}-utils
-  namespace: {{ .Values.global.namespace }}
-data:
-  copy.py: |
-    import json
-    from pathlib import Path
-
-    SRC_PATH = Path('/management.json')
-    DEST_PATH = Path('/etc/revolt/management.json')
-
-    def load_json(path):
-        print(f'Loading JSON from {path}')
-        with open(path, 'r') as f:
-            return json.load(f)
-
-    def save_json(path, data):
-        print(f'Saving merged JSON to {path}')
-        with open(path, 'w') as f:
-            json.dump(data, f, indent=2)
-
-    def merge_dicts(source, destination, path=''):
-        for key, value in source.items():
-            full_path = f'{path}.{key}' if path else key
-            if value in (None, '', [], {}, False):
-                if key in destination:
-                    print(f'{full_path}\t\t->    SKIP   ->\t\t')
-                continue
-
-            if isinstance(value, dict) and isinstance(destination.get(key), dict):
-                merge_dicts(value, destination[key], full_path)
-            else:
-                if key in destination and destination[key] != value:
-                    print(f'{full_path}\t\t-> OVERWRITE ->\t\t{destination[key]} -> {value}')
-                elif key not in destination:
-                    print(f'{full_path}\t\t->    NEW    ->\t\t{value}')
-                destination[key] = value
-        return destination
-
-    def main():
-        if not DEST_PATH.exists():
-            print(f'{DEST_PATH} does not exist. Copying {SRC_PATH} as-is.')
-            DEST_PATH.write_text(SRC_PATH.read_text())
-        else:
-            print(f'{DEST_PATH} exists. Merging contents from {SRC_PATH}.')
-            src_data = load_json(SRC_PATH)
-            dest_data = load_json(DEST_PATH)
-            merged = merge_dicts(src_data, dest_data)
-            save_json(DEST_PATH, merged)
-
-    if __name__ == '__main__':
-        main()
-

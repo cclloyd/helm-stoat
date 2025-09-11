@@ -37,7 +37,7 @@ global:
     name: ""
 
   subcharts:
-    mongo:  # mongodb
+    mongo:
       enabled: true  # Set to false to use external MongoDB
       connection_url: ''
     redis:
@@ -46,7 +46,7 @@ global:
     minio:
       enabled: true  # Set to false to use external MinIO
       connection_url: ''
-    rabbitmq:  # docker.io/rabbitmq:4
+    rabbitmq:
       enabled: true  # Set to false to use external RabbitMQ
       host: ''
       port: 5672
