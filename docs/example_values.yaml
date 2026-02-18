@@ -1,0 +1,79 @@
+# This contains a fully working manifest, the one that I use personally to host my own instance.
+# (with redactions when necessary. All these keys are invalid and must be changed.)
+
+global:
+  namespace: 'stoat'
+  domain: 'stoat.dev.example.com'
+
+  # I use GatewayAPI instead of Ingress, since Ingress is being deprecated.
+  route:
+    enabled: true
+    parentRefs:
+      - name: eg
+        namespace: system
+        sectionName: https
+
+  all:
+    deployment:
+      # I use Stakater's Reloader to ensure the most recent config is always being run.
+      annotations:
+        reloader.stakater.com/auto: 'true'
+
+  secret:
+    vapid_key: 'LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUNGNUNnc2ROMGd0eTQ5eVJ4UGNrNS9ESnJPK1NZMG1mdkV5a2JSUDVsSTJvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFZFlyNUQyK3cwWmJMdmhmOFhvVUh0alpEajJrL1JQLzBuWFcxSko1Slozc3FWWUl4YVhLZAovNGVhNDJReHdhMHRrUnFFbWpKcFMyRmpvbmw4NkdxMmZBPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo'
+    vapid_public_key: 'BHWK-Q9vsNGWy74X_F6FB7Y2Q49pP0T_9J11tSSeSWd7KlWCMWlynf-HmuNkMcGtLZEahJoyaUthY6J5fOhqtnw'
+    encryption_key: 'jx7cYL9tY7ybe6LBHmtwloQTFxXa3a3nNf7r0P+rmzg='
+  subcharts:
+    rabbitmq:
+      username: 'revolt'
+      password: 'PxcZVbV6EjBCmUdpUDcqPjVLAmUC43Rx9'
+
+
+stoat:
+  config:
+    api:
+      registration:
+        invite_only: true
+
+      # I use Mailgun to send emails from my domain.
+      smtp:
+        host: 'smtp.mailgun.org'
+        username: 'postmaster@mail.example.com'
+        password: 'changeme'
+        from_address: 'admin@example.com'
+        reply_to: 'admin@example.com'
+        port: 465
+        use_tls: true
+
+mongodb:
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: rbd
+
+
+redis:
+  master:
+    persistence:
+      enabled: true
+      size: 1Gi
+      storageClass: rbd
+
+
+rabbitmq:
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: rbd
+  auth:
+    username: 'revolt'
+    password: 'PxcZVbV6EjBCmUdpUDcqPjVLAmUC43Rx9'
+    updatePassword: true
+
+
+minio:
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: rbd
+
