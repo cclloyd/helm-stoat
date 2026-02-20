@@ -10,7 +10,7 @@ global:
   domain: ''
 
   web:
-    port: 80
+    port: 5000
   api:
     port: 14702
   bonfire:
