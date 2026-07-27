@@ -29,6 +29,9 @@ spec:
         - name: voice-ingress
           image: "{{ .Values.voice.image.repository }}:{{ default .Values.global.version.app .Values.voice.image.tag }}"
           imagePullPolicy: {{ .Values.voice.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ include "stoat.fullname" . }}-env
           ports:
             - name: http
               containerPort: 8500

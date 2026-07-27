@@ -33,6 +33,9 @@ spec:
             - name: http
               containerPort: 14703
               protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ include "stoat.fullname" . }}-env
           env:
             - name: RUST_BACKTRACE
               value: 'full'

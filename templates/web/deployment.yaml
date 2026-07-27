@@ -33,6 +33,9 @@ spec:
             - name: http
               containerPort: 5000
               protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ include "stoat.fullname" . }}-env
           env:
             - name: HOSTNAME
               value: 'https://{{ .Values.global.domain }}'
@@ -48,6 +51,8 @@ spec:
               value: 'https://{{ .Values.global.domain }}/january'
             - name: VITE_HCAPTCHA_SITEKEY
               value: {{ .Values.stoat.config.api.security.captcha.hcaptcha_sitekey | quote }}
+            - name: VITE_CFG_ENABLE_VIDEO
+              value: {{ .Values.stoat.streaming.enabled | quote }}
           livenessProbe:
             {{- if .Values.web.livenessProbe }}
             {{- toYaml .Values.web.livenessProbe | nindent 12 }}

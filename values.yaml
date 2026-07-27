@@ -9,8 +9,8 @@ global:
   # Domain name used for access, ex stoat.example.com
   domain: ''
   version:
-    app: 'v0.12.1'
-    web: 'v0.5.0'
+    app: 'v0.14.3'
+    web: '746bee5'
     livekit: 'v1.9.13'
 
   web:
@@ -27,6 +27,7 @@ global:
     port: 14706
   livekit:
     port: 7880
+    rtc_port: 7881
     range_start: 50000
     range_end: 50100
   voice:
@@ -93,6 +94,8 @@ global:
 
 stoat:
   # Reference: https://github.com/stoatchat/stoatchat/blob/stable/crates/core/config/Revolt.toml
+  streaming:
+    enabled: true
   config:
     production: false
     api:
@@ -219,6 +222,12 @@ stoat:
             icons: 2_500_000
             banners: 6_000_000
             emojis: 500_000
+          video_resolution:
+            - 1920
+            - 1080
+          video_aspect_ratio:
+            - 0.3
+            - 10
         default:
           outgoing_friend_requests: 10
           bots: 5
@@ -232,6 +241,12 @@ stoat:
             icons: 2_500_000
             banners: 6_000_000
             emojis: 500_000
+          video_resolution:
+            - 1920
+            - 1080
+          video_aspect_ratio:
+            - 0.3
+            - 10
       advanced:
         process_message_delay_limit: 5
     sentry:
@@ -304,7 +319,7 @@ garage:
 web:
   image:
     repository: ghcr.io/stoatchat/for-web
-    tag: main
+    tag: ''
     pullPolicy: Always
   annotations: {}
   labels: {}

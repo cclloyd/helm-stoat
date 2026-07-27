@@ -109,7 +109,7 @@ global:
 | `global.secret.encryption_key` **REQUIRED**   | Encryption key for sensitive data                       | `''`           |
 | `global.web.port`                             | Port for the web frontend                               | `5000`         |
 | `global.api.port`                             | Port for the API server                                 | `14702`        |
-| `global.events.port`                         | Port for the events events service                     | `14703`        |
+| `global.events.port`                          | Port for the events events service                      | `14703`        |
 | `global.autumn.port`                          | Port for the autumn file server                         | `14704`        |
 | `global.january.port`                         | Port for the january metadata proxy                     | `14705`        |
 | `global.gifbox.port`                          | Port for the gifbox proxy                               | `14706`        |
@@ -204,6 +204,7 @@ in [Revolt.toml](https://github.com/stoatchat/stoatchat/blob/stable/crates/core/
 
 | config                                      | description                                         | default            |
 |---------------------------------------------|-----------------------------------------------------|--------------------|
+| stoat.streaming.enabled                     | Enables video streaming                             | `true`             |
 | `stoat.config.production`                   | Production mode                                     | `false`            |
 | `stoat.config.api.registration.invite_only` | Set to true to require an invite code to register.  | `false`            |
 | `stoat.config.api.smtp.host`                | SMTP server host                                    | `''`               |
@@ -263,24 +264,24 @@ in [Revolt.toml](https://github.com/stoatchat/stoatchat/blob/stable/crates/core/
 
 ## events
 
-| config                       | description                  | default                    |
-|------------------------------|------------------------------|----------------------------|
+| config                      | description                  | default                   |
+|-----------------------------|------------------------------|---------------------------|
 | `events.image.repository`   | Image repository             | ghcr.io/revoltchat/events |
-| `events.image.tag`          | Image tag                    | 20250930-2                 |
-| `events.image.pullPolicy`   | Image pull policy            | IfNotPresent               |
-| `events.replicaCount`       | Number of replicas           | 1                          |
-| `events.annotations`        | Additional pod annotations   | `{}`                       |
-| `events.labels`             | Additional pod labels        | `{}`                       |
-| `events.nodeSelector`       | Pod nodeSelector             | `{}`                       |
-| `events.tolerations`        | Pod tolerations list         | `[]`                       |
-| `events.affinity`           | Pod affinity                 | `{}`                       |
-| `events.resources`          | Resource requests and limits | `{}`                       |
-| `events.livenessProbe`      | Liveness probe               |                            |
-| `events.readinessProbe`     | Readiness probe              |                            |
-| `events.service.type`       | Service type                 | ClusterIP                  |
-| `events.extra_volumes`      | Additional pod volumes       | `[]`                       |
-| `events.extra_volumeMounts` | Additional pod volumeMounts  | `[]`                       |
-| `events.configMountPath`    | Config mount path in pod     | /Revolt.toml               |
+| `events.image.tag`          | Image tag                    | 20250930-2                |
+| `events.image.pullPolicy`   | Image pull policy            | IfNotPresent              |
+| `events.replicaCount`       | Number of replicas           | 1                         |
+| `events.annotations`        | Additional pod annotations   | `{}`                      |
+| `events.labels`             | Additional pod labels        | `{}`                      |
+| `events.nodeSelector`       | Pod nodeSelector             | `{}`                      |
+| `events.tolerations`        | Pod tolerations list         | `[]`                      |
+| `events.affinity`           | Pod affinity                 | `{}`                      |
+| `events.resources`          | Resource requests and limits | `{}`                      |
+| `events.livenessProbe`      | Liveness probe               |                           |
+| `events.readinessProbe`     | Readiness probe              |                           |
+| `events.service.type`       | Service type                 | ClusterIP                 |
+| `events.extra_volumes`      | Additional pod volumes       | `[]`                      |
+| `events.extra_volumeMounts` | Additional pod volumeMounts  | `[]`                      |
+| `events.configMountPath`    | Config mount path in pod     | /Revolt.toml              |
 
 ## Autumn
 

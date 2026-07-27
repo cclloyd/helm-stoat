@@ -29,6 +29,9 @@ spec:
         - name: pushd
           image: "{{ .Values.pushd.image.repository }}:{{ default .Values.global.version.app .Values.pushd.image.tag }}"
           imagePullPolicy: {{ .Values.pushd.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ include "stoat.fullname" . }}-env
           env:
             - name: RUST_BACKTRACE
               value: 'full'

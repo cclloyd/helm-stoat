@@ -33,6 +33,9 @@ spec:
             - name: http
               containerPort: 14705
               protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ include "stoat.fullname" . }}-env
           livenessProbe:
             {{- if .Values.january.livenessProbe }}
             {{- toYaml .Values.january.livenessProbe | nindent 12 }}

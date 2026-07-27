@@ -36,6 +36,9 @@ spec:
             - name: http
               containerPort: {{ .Values.global.livekit.port }}
               protocol: TCP
+            - name: rtctcp
+              containerPort: {{ .Values.global.livekit.rtc_port }}
+              protocol: TCP
           livenessProbe:
             {{- if .Values.livekit.livenessProbe }}
             {{- toYaml .Values.livekit.livenessProbe | nindent 12 }}

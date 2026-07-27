@@ -29,6 +29,9 @@ spec:
         - name: crond
           image: "{{ .Values.crond.image.repository }}:{{ default .Values.global.version.app .Values.crond.image.tag }}"
           imagePullPolicy: {{ .Values.crond.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ include "stoat.fullname" . }}-env
           {{- if .Values.crond.livenessProbe }}
           livenessProbe:
             {{- toYaml .Values.crond.livenessProbe | nindent 12 }}
