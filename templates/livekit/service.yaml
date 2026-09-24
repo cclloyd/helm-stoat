@@ -21,7 +21,7 @@ spec:
       targetPort: rtctcp
       port: {{ .Values.global.livekit.rtc_port }}
       protocol: TCP
-    {{- range $port := untilStep 50000 50011 1 }}
+    {{- range $port := untilStep (.Values.global.livekit.range_start | int) (add (.Values.global.livekit.range_end | int) 1 | int) 1 }}
     - name: live-{{ $port }}
       port: {{ $port }}
       targetPort: {{ $port }}

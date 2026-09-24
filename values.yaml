@@ -9,9 +9,9 @@ global:
   # Domain name used for access, ex stoat.example.com
   domain: ''
   version:
-    app: 'v0.14.3'
-    web: '746bee5'
-    livekit: 'v1.9.13'
+    app: 'v0.15.5'
+    web: '0.15.3'
+    livekit: 'v1.9.14'
 
   web:
     port: 5000
